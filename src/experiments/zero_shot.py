@@ -1,91 +1,65 @@
-from src.datasets.conll2003 import load_conll2003, get_ner_labels
+from __future__ import annotations
+
+from src.datasets.conll2003 import DEFAULT_GLINER_LABELS, build_sentence, get_ner_labels, load_conll2003
+from src.evaluation.bio_converter import bio_tags_to_spans, predictions_to_bio, predictions_to_token_spans
 from src.models.gliner_model import GLiNERModel
-from src.evaluation.bio_converter import predictions_to_bio
 
-GLINER_LABELS = [
-    "person",
-    "organization",
-    "location",
-    "miscellaneous"
-]
 
-def main():
+def main() -> None:
     print("=" * 80)
-    print("EXPERIMENTO 1 - ZERO-SHOT NER COM GLiNER")
+    print("EXPERIMENTO QUALITATIVO - GLiNER ZERO-SHOT")
     print("=" * 80)
 
-    # ------------------------------------------------------------------
-    # Carrega o dataset
-    # ------------------------------------------------------------------
     dataset = load_conll2003()
+    sentence = build_sentence(dataset["test"][0], get_ner_labels(dataset))
 
-    # Primeira sentença do conjunto de teste
-    sample = dataset["test"][0]
+    print("\nTexto reconstruído:\n")
+    print(sentence.text)
 
-    tokens = sample["tokens"]
-    text = " ".join(tokens)
+    print("\nGold spans:")
+    print(bio_tags_to_spans(sentence.gold_bio_tags))
 
-    print("\nTexto:\n")
-    print(text)
-
-    # ------------------------------------------------------------------
-    # Ground Truth
-    # ------------------------------------------------------------------
-    ner_labels = get_ner_labels(dataset)
-
-    ground_truth = [
-        ner_labels[tag]
-        for tag in sample["ner_tags"]
-    ]
-
-    # ------------------------------------------------------------------
-    # Carrega o modelo
-    # ------------------------------------------------------------------
-    model = GLiNERModel()
+    model = GLiNERModel("urchade/gliner_large-v2.1")
+    predictions = model.predict(
+        text=sentence.text,
+        labels=DEFAULT_GLINER_LABELS,
+        threshold=0.5,
+    )
 
     print("\nLabels fornecidas ao GLiNER:")
-    print(GLINER_LABELS)
-
-    # ------------------------------------------------------------------
-    # Inferência
-    # ------------------------------------------------------------------
-    predictions = model.predict(
-        text=text,
-        labels=GLINER_LABELS
-    )
+    print(list(DEFAULT_GLINER_LABELS))
 
     print("\n" + "=" * 80)
     print("ENTIDADES ENCONTRADAS")
     print("=" * 80)
-
-    if len(predictions) == 0:
+    if not predictions:
         print("Nenhuma entidade encontrada.")
     else:
         for entity in predictions:
             print(entity)
 
-    # ------------------------------------------------------------------
-    # Conversão para BIO
-    # ------------------------------------------------------------------
+    predicted_spans = predictions_to_token_spans(predictions, sentence.offsets)
     predicted_bio = predictions_to_bio(
-        tokens=tokens,
-        predictions=predictions
+        tokens=sentence.tokens,
+        predictions=predictions,
+        token_offsets=sentence.offsets,
     )
 
-    # ------------------------------------------------------------------
-    # Comparação
-    # ------------------------------------------------------------------
-    print("\n" + "=" * 80)
-    print("COMPARAÇÃO ENTRE GROUND TRUTH E PREDIÇÃO")
-    print("=" * 80)
+    print("\nPredicted spans:")
+    print(predicted_spans)
 
+    print("\n" + "=" * 80)
+    print("COMPARAÇÃO ENTRE GOLD E PREDIÇÃO")
+    print("=" * 80)
     print(f"{'TOKEN':20} {'GROUND TRUTH':15} {'PREDIÇÃO'}")
     print("-" * 55)
 
-    for token, gt, pred in zip(tokens, ground_truth, predicted_bio):
-        print(f"{token:20} {gt:15} {pred}")
-
-    print("\nFim do experimento.")
+    for token, gold_tag, pred_tag in zip(
+        sentence.tokens,
+        sentence.gold_bio_tags,
+        predicted_bio,
+    ):
+        print(f"{token:20} {gold_tag:15} {pred_tag}")
 
 
 if __name__ == "__main__":

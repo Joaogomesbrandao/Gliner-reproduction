@@ -1,12 +1,15 @@
 datasets==2.21.0
-gliner
+gliner==0.2.5
 transformers==4.44.2
-torch>=2.3
-seqeval
-pandas
-tqdm
-scikit-learn
-spacy
-flair
-matplotlib
-numpy
+torch>=2.4,<2.5
+seqeval==1.2.2
+pandas>=2.2,<3.0
+tqdm>=4.67,<5.0
+scikit-learn==1.9.0
+scipy==1.14.1
+sentencepiece==0.2.2
+numpy>=1.26,<2.0
+
+# Optional baselines for src/experiments/experiment3_compare_models.py
+# spacy>=3.7,<4.0
+# flair>=0.14,<1.0

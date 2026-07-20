@@ -1,0 +1,2 @@
+experiment,model_name,dataset,split,checkpoint,labels,examples,threshold,precision,recall,f1,time_seconds_total,time_seconds_average,predicted_entities,reference_entities,raw_predicted_entities,exact_matches
+zero_shot,urchade/gliner_large-v2.1,conll2003,test,urchade/gliner_large-v2.1,"[""person"", ""organization"", ""location"", ""miscellaneous""]",10,0.5,0.5,0.5714285714285714,0.5333333333333333,3.472461468001711,0.34724614680017113,24,21,24,12

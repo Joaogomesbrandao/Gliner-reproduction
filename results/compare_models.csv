@@ -1,0 +1,4 @@
+experiment,model_name,dataset,split,checkpoint,labels,examples,threshold,precision,recall,f1,time_seconds_total,time_seconds_average,predicted_entities,reference_entities,raw_predicted_entities,exact_matches
+compare_models,GLiNER Large,conll2003,test,urchade/gliner_large-v2.1,"[""person"", ""organization"", ""location"", ""miscellaneous""]",10,0.5,0.5,0.5714285714285714,0.5333333333333333,3.391308365999066,0.3391308365999066,24,21,24,12
+compare_models,GLiNER Base,conll2003,test,urchade/gliner_base,"[""person"", ""organization"", ""location"", ""miscellaneous""]",10,0.5,0.56,0.6666666666666666,0.6086956521739131,1.0618332770009147,0.10618332770009146,25,21,25,14
+compare_models,GLiNER Small,conll2003,test,urchade/gliner_small-v2.1,"[""person"", ""organization"", ""location"", ""miscellaneous""]",10,0.5,0.6111111111111112,0.5238095238095238,0.5641025641025642,0.6002962239999761,0.06002962239999761,18,21,18,11

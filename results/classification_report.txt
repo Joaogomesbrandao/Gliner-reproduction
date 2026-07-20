@@ -1,0 +1,30 @@
+experiment: zero_shot
+model_name: urchade/gliner_large-v2.1
+dataset: conll2003
+split: test
+checkpoint: urchade/gliner_large-v2.1
+examples: 10
+labels: ['person', 'organization', 'location', 'miscellaneous']
+threshold: 0.5
+precision: 0.5000
+recall: 0.5714
+f1: 0.5333
+time_seconds_total: 3.4725
+time_seconds_average: 0.3472
+predicted_entities: 24
+reference_entities: 21
+raw_predicted_entities: 24
+exact_matches: 12
+
+classification_report
+=====================
+              precision    recall  f1-score   support
+
+         LOC     0.7500    0.8182    0.7826        11
+        MISC     0.0000    0.0000    0.0000         6
+         ORG     0.0000    0.0000    0.0000         0
+         PER     0.7500    0.7500    0.7500         4
+
+   micro avg     0.5000    0.5714    0.5333        21
+   macro avg     0.3750    0.3920    0.3832        21
+weighted avg     0.5357    0.5714    0.5528        21
