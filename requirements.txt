@@ -1,0 +1,12 @@
+datasets==2.21.0
+gliner
+transformers==4.44.2
+torch>=2.3
+seqeval
+pandas
+tqdm
+scikit-learn
+spacy
+flair
+matplotlib
+numpy
