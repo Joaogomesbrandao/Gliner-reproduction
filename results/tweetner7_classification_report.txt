@@ -1,0 +1,33 @@
+experiment: tweetner7_zero_shot
+model_name: urchade/gliner_large-v2.1
+dataset: tweetner7_2021
+split: test
+checkpoint: urchade/gliner_large-v2.1
+examples: 2807
+labels: ['corporation', 'creative work', 'event', 'group', 'location', 'person', 'product']
+threshold: 0.5
+precision: 0.3779
+recall: 0.4508
+f1: 0.4112
+time_seconds_total: 630.7405
+time_seconds_average: 0.2247
+predicted_entities: 10311
+reference_entities: 8644
+raw_predicted_entities: 10330
+exact_matches: 3897
+
+classification_report
+=====================
+               precision    recall  f1-score   support
+
+  corporation     0.3720    0.2567    0.3037       900
+creative_work     0.3623    0.3023    0.3296       731
+        event     0.2839    0.4440    0.3463      1099
+        group     0.2190    0.1430    0.1730      1518
+     location     0.3634    0.6983    0.4780       716
+       person     0.4767    0.7813    0.5921      2712
+      product     0.2210    0.1193    0.1550       972
+
+    micro avg     0.3783    0.4500    0.4111      8648
+    macro avg     0.3283    0.3921    0.3397      8648
+ weighted avg     0.3483    0.4500    0.3765      8648
